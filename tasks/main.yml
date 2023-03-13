@@ -1,10 +1,101 @@
 # tasks file
 ---
 
+- name: Create fonts directory
+  become: true
+  file:
+    path: "{{ fonts_path }}"
+    mode: '0755'
+    state: directory
 
-  - name: install packages
-    package:
-      name:
-        - htop
-        - ranger
-        - bat
+- name: Copy powerlevel10k recommanded fonts
+  become: true
+  copy:
+    src: "fonts/{{ item }}"
+    dest: "{{ fonts_path }}/{{ item }}"
+    mode: '0644'
+  loop:
+    - MesloLGS NF Bold Italic.ttf
+    - MesloLGS NF Bold.ttf
+    - MesloLGS NF Italic.ttf
+    - MesloLGS NF Regular.ttf
+
+- name: install packages
+  package:
+    name:
+      - htop
+      - ranger
+      - bat
+      - tmux
+    autoclean: yes
+
+- name: install dependencies
+  become: yes
+  package:
+    name:
+      - git
+      - zsh
+    state: present
+
+- name: clone oh-my-zsh for user
+  tags:
+    # Suppress warning: [ANSIBLE0006] git used in place of git module
+    # Git module doesn't allow us to set `core.autocrlf=input`.
+    - skip_ansible_lint
+  become: yes
+  become_user: "{{ user.username }}"
+  git:
+    repo: "https://github.com/ohmyzsh/ohmyzsh.git"
+    dest: "~{{ user.username }}/.oh-my-zsh"
+
+- name: clone powerlevel10k for userss
+  become: yes
+  become_user: '{{ user.username }}'
+  git:
+    repo: 'https://github.com/romkatv/powerlevel10k.git'
+    version: master
+    dest: "~{{ user.username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+
+- name: clone zsh-autosuggestions for users
+  become: yes
+  become_user: '{{ user.username }}'
+  git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    version: master
+    dest: '~/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+
+- name: write .p10k.zsh for users
+  become: yes
+  become_user: '{{ user.username }}'
+  copy:
+    src: "{{ p10k_src_file }}"
+    dest: ~/.p10k.zsh
+    backup: yes
+    mode: 'u=rw,go=r'
+
+- name: write .zshrc for user
+  become: yes
+  become_user: "{{ user.username }}"
+  template:
+    src: zshrc.j2
+    dest: "~{{ user.username }}/.zshrc"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: Clone TPM repository
+  become: yes
+  become_user: "{{ user.username }}"
+  git:
+    repo: "https://github.com/tmux-plugins/tpm.git"
+    dest: "~{{ user.username }}/.tmux/plugins/tpm"
+
+- name: write .tmux.conf for user
+  become: yes
+  become_user: "{{ user.username }}"
+  template:
+    src: tmux.conf.j2
+    dest: "~{{ user.username }}/.tmux.conf"
+    backup: yes
+    mode: "u=rw,go=r"
+
+

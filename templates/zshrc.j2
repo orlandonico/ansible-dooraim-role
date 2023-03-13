@@ -1,0 +1,238 @@
+# Config from Ansible
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+#
+# Ansible managed
+#
+
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-autosuggestions)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+#-------------------------------------------------------------
+# GIT
+#-------------------------------------------------------------
+
+alias g="git status"
+alias ga="git add"
+alias gaa="git add ."
+alias gau="git add -u"
+alias gc="git commit -v"
+alias gca="git commit -am"
+alias gb="git branch"
+alias gbd="git branch -d"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gt="git stash"
+alias gta="git stash apply"
+alias gm="git merge"
+alias gr="git rebase"
+alias gln='logging'
+alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
+alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+alias glga="git log --graph --oneline --all --decorate"
+alias gb="git branch"
+alias gs="git show"
+alias gd="diff --color --color-words --abbrev"
+alias gdc="git diff --cached"
+alias gbl="git blame"
+alias gps="git push"
+alias gpl="git pull"
+alias gb="git branch"
+alias gc="git commit"
+alias gd="git diff"
+alias go="git checkout "
+alias gk="gitk --all&"
+alias gx="gitx --all"
+alias gcl="git clone --recurse-submodules"
+alias gbr="git branch -r"
+alias gf="git fetch"
+alias gmnf="git merge --no-ff"
+alias gvdf='view_diff'
+
+# show ignored files by git
+alias gx="ign = ls-files -o -i --exclude-standard"
+
+# Untrack Files without deleting them
+alias grmc="git rm -r --cached"
+
+# Pipe for update note
+alias gupdate="git add . && git commit -m "update" && git push"
+
+# Metod
+
+logging(){
+  if [ "$1" ]; then
+    git log --pretty=format:'%Cred%h%Creset %Cgreen(%cr)%Creset %C(yellow)%an%Creset %s' -n $1 --color=always | nl | less -r
+  else
+    git log --pretty=format:'%Cred%h%Creset %Cgreen(%cr)%Creset %C(yellow)%an%Creset %s' --color=always | nl | less -r
+  fi
+
+}
+
+view_diff(){
+  if [ "$1" ]; then
+    git diff HEAD~$1..HEAD
+  else
+    git diff HEAD^..HEAD
+  fi
+}
+
+#-------------------------------------------------------------
+# Command Directory
+#-------------------------------------------------------------
+
+alias ..='cd ..;pwd'
+alias ...='cd ../..;pwd'
+alias ....='cd ../../..;pwd'
+alias c='clear'
+alias h='history'
+alias ll='ls -lA'
+alias tree='tree --dirsfirst -F'
+alias mkdir='mkdir -p -v'
+
+#-------------------------------------------------------------
+# YABT
+#-------------------------------------------------------------
+
+alias ybs="yabt step"
+alias ybb="yabt build"
+alias ybts="yabt shell"
+
+#-------------------------------------------------------------
+# LAB
+#-------------------------------------------------------------
+
+# issue
+alias lic='lab issue create'
+alias lie='lab issue edit'
+alias licl='lab issue close'
+alias lis='lab issue show'
+alias lib='lab issue browse'
+alias lin='lab issue note'
+alias linm='lab issue note -m'
+alias lil='lab issue list'
+
+# mr
+alias lmc='lab mr create'
+alias lme='lab mr edit'
+alias lmcl='lab mr close'
+alias lms='lab mr show'
+alias lmb='lab mr browse'
+alias lmn='lab mr note'
+alias lmn='lab mr note -m'
+alias lil='lab mr list'
+
+#-------------------------------------------------------------
+# TMUX
+#-------------------------------------------------------------
+alias ts='tmux ls'
+alias ta='tmux a -s'
+alias tn='tmux new -t'
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

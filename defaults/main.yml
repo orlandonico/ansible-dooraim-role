@@ -1,2 +1,6 @@
 # defaults file
 ---
+user:
+  username: dvdk
+
+p10k_src_file: .p10k.zsh
