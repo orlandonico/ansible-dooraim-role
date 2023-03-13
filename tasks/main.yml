@@ -29,6 +29,9 @@
       - tmux
       - git
       - zsh
+      - picocom
+      - minicom
+      - ssh
     autoclean: yes
 
 - name: clone oh-my-zsh for user
