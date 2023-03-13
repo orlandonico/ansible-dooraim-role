@@ -1,10 +1,311 @@
 # tasks file
 ---
 
+- name: install packages on Ubuntu
+  package:
+    name:
+      - htop
+      - ranger
+      - bat
+      - tmux
+      - git
+      - zsh
+      - picocom
+      - minicom
+      - ssh
+      - tree
+      - rsync
+      - iperf3
+      - build-essential
+      - autoconf
+      - bison
+      - flex
+      - texinfo
+      - help2man
+      - gawk
+      - libtool-bin
+      - libncurses5-dev
+      - unzip
+      - qemu-user
+      - libssl-dev
+      - device-tree-compiler
+      - swig
+      - bridge-utils
+      - net-tools
+      - nfs-kernel-server
+      - uml-utilities
+      - rlwrap
+      - curl
+      - xsel
+      - fzf
+      - peco
+      - fzy
+      - fd-find
+      - ripgrep
+      - cppcheck
+      - snapd
+      - gparted
+      - samba
+      - samba-common-bin
+    autoclean: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+  when: ansible_facts['os_family'] == "Debian"
 
-  - name: install packages
-    package:
-      name:
-        - htop
-        - ranger
-        - bat
+- name: Install packages on Fedora
+  ansible.builtin.dnf:
+    name:
+      - htop
+      - ranger
+      - bat
+      - tmux
+      - git
+      - zsh
+      - picocom
+      - minicom
+      - openssh
+      - tree
+      - rsync
+      - iperf3
+      - development-tools  # Gruppo di pacchetti simile a build-essential
+      - autoconf
+      - bison
+      - flex
+      - texinfo
+      - help2man
+      - gawk
+      - libtool
+      - ncurses-devel
+      - unzip
+      - qemu-user
+      - openssl-devel
+      - dtc  # device-tree-compiler
+      - swig
+      - bridge-utils
+      - net-tools
+      - nfs-utils  # nfs-kernel-server
+      - uml_utilities
+      - rlwrap
+      - curl
+      - xsel
+      - fzf
+      - peco
+      - fzy
+      - fd-find
+      - ripgrep
+      - cppcheck
+      - snapd
+      - gparted
+      - samba
+      - samba-common
+    state: present
+    update_cache: yes
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: install python packages
+  package:
+    name:
+      - python3
+      - python3-distutils
+      - python3-dev
+      - python3-setuptools
+      - python3-pip
+    autoclean: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install NEOVIM
+  snap:
+    name: nvim
+    classic: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install glab
+  snap:
+    name: glab
+    classic: yes
+  when: ansible_facts['os_family'] == "Debian"
+
+
+- name: set default shell for users
+  user:
+    name: '{{ username }}'
+    shell: /bin/zsh
+
+- name: Create fonts directory
+  become: true
+  become_user: "{{ username }}"
+  file:
+    path: "~{{ username }}/.fonts"
+    mode: '0755'
+    state: directory
+
+- name: Copy powerlevel10k recommanded fonts
+  become: true
+  become_user: "{{ username }}"
+  copy:
+    src: "fonts/{{ item }}"
+    dest: "~{{ username }}/.fonts/{{ item }}"
+    mode: '0644'
+  loop:
+    - MesloLGS NF Bold Italic.ttf
+    - MesloLGS NF Bold.ttf
+    - MesloLGS NF Italic.ttf
+    - MesloLGS NF Regular.ttf
+
+- name: ensure fonts directory
+  become: true
+  become_user: "{{ username }}"
+  file:
+    path: "{{ fonts_path }}"
+    state: directory
+
+- name: clone oh-my-zsh for user
+  tags:
+    # Suppress warning: [ANSIBLE0006] git used in place of git module
+    # Git module doesn't allow us to set `core.autocrlf=input`.
+    - skip_ansible_lint
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: "https://github.com/ohmyzsh/ohmyzsh.git"
+    dest: "~{{ username }}/.oh-my-zsh"
+
+- name: clone powerlevel10k for users
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: 'https://github.com/romkatv/powerlevel10k.git'
+    version: master
+    dest: "~{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+
+- name: clone zsh-autosuggestions for users
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+
+- name: clone forgit for users
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: 'https://github.com/wfxr/forgit.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
+
+- name: clone syntax highlighting  for users
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+
+- name: clone enhancd for users
+  become_user: "{{ username }}"
+  git:
+    repo: 'https://github.com/b4b4r07/enhancd.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
+
+- name: write .p10k.zsh for users
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: p10k.zsh.j2
+    dest: ~{{ username }}/.p10k.zsh
+    backup: yes
+    mode: 'u=rw,go=r'
+
+- name: write .zshrc for user
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: zshrc.j2
+    dest: "~{{ username }}/.zshrc"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: write .alias_fzf for user
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: alias_fzf.j2
+    dest: "~{{ username }}/.alias_fzf"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: write .alias_git for user
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: alias_git.j2
+    dest: "~{{ username }}/.alias_git"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: write .alias_lab for user
+  become_user: "{{ username }}"
+  template:
+    src: alias_lab.j2
+    dest: "~{{ username }}/.alias_lab"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: write .alias_tmux for user
+  become_user: "{{ username }}"
+  template:
+    src: alias_tmux.j2
+    dest: "~{{ username }}/.alias_tmux"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: write .alias_utility for user
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: alias_utility.j2
+    dest: "~{{ username }}/.alias_utility"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: write .alias_yabt for user
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: alias_yabt.j2
+    dest: "~{{ username }}/.alias_yabt"
+    backup: yes
+    mode: "u=rw,go=r"
+
+- name: Clone TPM repository
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: "https://github.com/tmux-plugins/tpm.git"
+    dest: "~{{ username }}/.tmux/plugins/tpm"
+
+- name: write .tmux.conf for user
+  become: true
+  become_user: "{{ username }}"
+  template:
+    src: tmux.conf.j2
+    dest: "~{{ username }}/.tmux.conf"
+    backup: yes
+    mode: "u=rw,go=rw"
+
+- name: Clone LazyVim starter
+  become: true
+  become_user: "{{ username }}"
+  git:
+    repo: https://github.com/dooraim/starter.git
+    dest: ~{{ username }}/.config/nvim
+    update: yes
+
+- name: Remove .git directory from ~/.config/nvim
+  become: true
+  become_user: "{{ username }}"
+  file:
+    path: ~{{ username }}/.config/nvim/.git
+    state: absent
