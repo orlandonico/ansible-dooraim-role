@@ -19,7 +19,7 @@ zsh_plugin: zsh
 
 # Setup p10k theme to use
 # Valid values: lean, classic, rainbow, pure
-p10k_prompt_style: "classic"
+p10k_prompt_style: "lean"
 
 # Show current time
 # Valid values: no, 24-hour, 12-hour
