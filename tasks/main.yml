@@ -27,15 +27,9 @@
       - ranger
       - bat
       - tmux
-    autoclean: yes
-
-- name: install dependencies
-  become: yes
-  package:
-    name:
       - git
       - zsh
-    state: present
+    autoclean: yes
 
 - name: clone oh-my-zsh for user
   tags:
@@ -62,14 +56,14 @@
   git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     version: master
-    dest: '~/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+    dest: '~{{ user.username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
 
 - name: write .p10k.zsh for users
   become: yes
   become_user: '{{ user.username }}'
-  copy:
-    src: "{{ p10k_src_file }}"
-    dest: ~/.p10k.zsh
+  template:
+    src: p10k.zsh.j2
+    dest: ~{{ user.username }}/.p10k.zsh
     backup: yes
     mode: 'u=rw,go=r'
 
@@ -82,12 +76,25 @@
     backup: yes
     mode: "u=rw,go=r"
 
+- name: set default shell for users
+  become: yes
+  user:
+    name: '{{ user.username }}'
+    shell: /bin/zsh
+
 - name: Clone TPM repository
   become: yes
   become_user: "{{ user.username }}"
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
     dest: "~{{ user.username }}/.tmux/plugins/tpm"
+
+- name: Clone Notes
+  become: yes
+  become_user: "{{ user.username }}"
+  git:
+    repo: "https://github.com/orlandonico/Note.git"
+    dest: "~{{ user.username }}/Notes"
 
 - name: write .tmux.conf for user
   become: yes
