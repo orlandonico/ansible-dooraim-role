@@ -32,6 +32,8 @@
       - picocom
       - minicom
       - ssh
+      - tree
+      - rsync
     autoclean: yes
 
 - name: clone oh-my-zsh for user
@@ -108,4 +110,7 @@
     backup: yes
     mode: "u=rw,go=r"
 
-
+- name: install lab
+  become: yes
+  become_user: "{{ user.username }}"
+  shell: 'curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash'
