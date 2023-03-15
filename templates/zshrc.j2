@@ -149,8 +149,12 @@ alias gmnf="git merge --no-ff"
 alias gvdf='view_diff'
 alias grv="git remote -v"
 alias gra="git remote -a"
+# vedo tutti i remote del repository
 alias grs="git remote show"
+# faccio il fetch di tutti i branch e vedo lo stato dei branch in termini di commit prima e dopo
 alias gfabv="git fetch --all; git branch -vv"
+# vedo quali commit non sono ancora stati pushati
+alias glnp="git log --branches --not --remotes"
 
 # show ignored files by git
 alias gx="ign = ls-files -o -i --exclude-standard"
