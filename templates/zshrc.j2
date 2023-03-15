@@ -11,7 +11,6 @@ fi
 # Ansible managed
 #
 
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -112,7 +111,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
 #-------------------------------------------------------------
 # GIT
 #-------------------------------------------------------------
@@ -123,7 +121,7 @@ alias gaa="git add ."
 alias gau="git add -u"
 alias gc="git commit -v"
 alias gca="git commit -am"
-alias gb="git branch"
+alias gb="git branch -vv"
 alias gbd="git branch -d"
 alias gco="git checkout"
 alias gcob="git checkout -b"
@@ -135,27 +133,24 @@ alias gln='logging'
 alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
 alias glga="git log --graph --oneline --all --decorate"
-alias gb="git branch"
 alias gs="git show"
 alias gd="diff --color --color-words --abbrev"
 alias gdc="git diff --cached"
 alias gbl="git blame"
 alias gps="git push"
 alias gpl="git pull"
-alias gb="git branch"
-alias gc="git commit"
-alias gd="git diff"
 alias go="git checkout "
 alias gk="gitk --all&"
 alias gx="gitx --all"
 alias gcl="git clone --recurse-submodules"
 alias gbr="git branch -r"
-alias gf="git fetch"
+alias gf="git fetch -all"
 alias gmnf="git merge --no-ff"
 alias gvdf='view_diff'
 alias grv="git remote -v"
 alias gra="git remote -a"
 alias grs="git remote show"
+alias gfabv="git fetch --all; git branch -vv"
 
 # show ignored files by git
 alias gx="ign = ls-files -o -i --exclude-standard"
@@ -254,7 +249,6 @@ alias lr='ls -ltr'
 alias reload='source ~/.zshrc'
 alias grep='grep --color=auto'
 alias occupy='du . -hacS --apparent-size'
-
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
