@@ -111,7 +111,7 @@
     backup: yes
     mode: "u=rw,go=r"
 
-- name: install lab
-  become: yes
-  become_user: "{{ username }}"
-  shell: 'curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash'
+# - name: install lab
+#   become: yes
+#   become_user: "{{ username }}"
+#   shell: 'curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash'
