@@ -1,7 +1,5 @@
 # defaults file
 ---
-user:
-  username: dvdk
 
 # defaults file for ansible-role-p10k
 

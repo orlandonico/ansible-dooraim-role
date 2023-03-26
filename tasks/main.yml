@@ -43,75 +43,75 @@
     # Git module doesn't allow us to set `core.autocrlf=input`.
     - skip_ansible_lint
   become: yes
-  become_user: "{{ user.username }}"
+  become_user: "{{ username }}"
   git:
     repo: "https://github.com/ohmyzsh/ohmyzsh.git"
-    dest: "~{{ user.username }}/.oh-my-zsh"
+    dest: "~{{ username }}/.oh-my-zsh"
 
 - name: clone powerlevel10k for userss
   become: yes
-  become_user: '{{ user.username }}'
+  become_user: '{{ username }}'
   git:
     repo: 'https://github.com/romkatv/powerlevel10k.git'
     version: master
-    dest: "~{{ user.username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: "~{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
 
 - name: clone zsh-autosuggestions for users
   become: yes
-  become_user: '{{ user.username }}'
+  become_user: '{{ username }}'
   git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     version: master
-    dest: '~{{ user.username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
 
 - name: write .p10k.zsh for users
   become: yes
-  become_user: '{{ user.username }}'
+  become_user: '{{ username }}'
   template:
     src: p10k.zsh.j2
-    dest: ~{{ user.username }}/.p10k.zsh
+    dest: ~{{ username }}/.p10k.zsh
     backup: yes
     mode: 'u=rw,go=r'
 
 - name: write .zshrc for user
   become: yes
-  become_user: "{{ user.username }}"
+  become_user: "{{ username }}"
   template:
     src: zshrc.j2
-    dest: "~{{ user.username }}/.zshrc"
+    dest: "~{{ username }}/.zshrc"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: set default shell for users
   become: yes
   user:
-    name: '{{ user.username }}'
+    name: '{{ username }}'
     shell: /bin/zsh
 
 - name: Clone TPM repository
   become: yes
-  become_user: "{{ user.username }}"
+  become_user: "{{ username }}"
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
-    dest: "~{{ user.username }}/.tmux/plugins/tpm"
+    dest: "~{{ username }}/.tmux/plugins/tpm"
 
 - name: Clone Notes
   become: yes
-  become_user: "{{ user.username }}"
+  become_user: "{{ username }}"
   git:
     repo: "https://github.com/orlandonico/Note.git"
-    dest: "~{{ user.username }}/Notes"
+    dest: "~{{ username }}/Notes"
 
 - name: write .tmux.conf for user
   become: yes
-  become_user: "{{ user.username }}"
+  become_user: "{{ username }}"
   template:
     src: tmux.conf.j2
-    dest: "~{{ user.username }}/.tmux.conf"
+    dest: "~{{ username }}/.tmux.conf"
     backup: yes
     mode: "u=rw,go=r"
 
 - name: install lab
   become: yes
-  become_user: "{{ user.username }}"
+  become_user: "{{ username }}"
   shell: 'curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash'
