@@ -137,3 +137,27 @@
 #   become: yes
 #   become_user: "{{ username }}"
 #   shell: 'curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash'
+
+- name: clone embedded-qemu-labs
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'https://github.com/orlandonico/embedded-qemu-labs.git'
+    version: master
+    dest: '~{{ username }}/'
+
+- name: clone linux kernel 5.15.1
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'https://github.com/torvalds/linux.git'
+    version: v5.15
+    dest: '~{{ username }}/embedded-qemu-labs/kernel/'
+
+- name: clone crosstool-ng
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'git clone https://github.com/crosstool-ng/crosstool-ng'
+    version: 
+    dest: '~{{ username }}/embedded-qemu-labs/toolchain/'
