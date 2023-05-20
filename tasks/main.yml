@@ -35,6 +35,28 @@
       - tree
       - rsync
       - iperf3
+      - build-essential 
+      - git 
+      - autoconf 
+      - bison 
+      - flex 
+      - texinfo 
+      - help2man 
+      - gawk 
+      - libtool-bin 
+      - libncurses5-dev 
+      - unzip 
+      - qemu-user 
+      - libssl-dev 
+      - device-tree-compiler 
+      - swig 
+      - python3-distutils 
+      - python3-dev 
+      - qemu-system-arm 
+      - bridge-utils 
+      - net-tools 
+      - nfs-kernel-server 
+      - uml-utilities
     autoclean: yes
 
 - name: clone oh-my-zsh for user
