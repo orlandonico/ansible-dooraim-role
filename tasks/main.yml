@@ -56,6 +56,7 @@
       - net-tools
       - nfs-kernel-server
       - uml-utilities
+      - rlwrap
     autoclean: yes
 
 - name: clone oh-my-zsh for user
@@ -160,3 +161,8 @@
     repo: 'git clone https://github.com/crosstool-ng/crosstool-ng'
     version:
     dest: '~{{ username }}/embedded-qemu-labs/toolchain/'
+
+- name: install cheatsheet.sh
+  become: yes
+  become_user: '{{ username }}'
+  command: "curl -s https://cht.sh/:cht.sh | sudo tee /usr/local/bin/cht.sh && sudo chmod +x /usr/local/bin/cht.sh"
