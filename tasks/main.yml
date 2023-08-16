@@ -57,6 +57,7 @@
       - nfs-kernel-server
       - uml-utilities
       - rlwrap
+      - curl
     autoclean: yes
 
 - name: clone oh-my-zsh for user
