@@ -117,12 +117,12 @@
     repo: "https://github.com/tmux-plugins/tpm.git"
     dest: "~{{ username }}/.tmux/plugins/tpm"
 
-- name: Clone Notes
-  become: yes
-  become_user: "{{ username }}"
-  git:
-    repo: "https://github.com/orlandonico/Note.git"
-    dest: "~{{ username }}/Notes"
+# - name: Clone Notes
+#   become: yes
+#   become_user: "{{ username }}"
+#   git:
+#     repo: "https://github.com/dooraim/Note.git"
+#     dest: "~{{ username }}/Notes"
 
 - name: write .tmux.conf for user
   become: yes
@@ -142,7 +142,7 @@
   become: yes
   become_user: '{{ username }}'
   git:
-    repo: 'https://github.com/orlandonico/embedded-qemu-labs.git'
+    repo: 'https://github.com/dooraim/embedded-qemu-labs.git'
     version: master
     dest: '~{{ username }}/'
 
