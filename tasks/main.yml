@@ -58,6 +58,7 @@
       - uml-utilities
       - rlwrap
       - curl
+      - xsel
     autoclean: yes
 
 - name: clone oh-my-zsh for user
