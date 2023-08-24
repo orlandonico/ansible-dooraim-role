@@ -172,7 +172,7 @@
 - name: install Rust
   become: yes
   become_user: '{{ username }}'
-  command: 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh'
+  command: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
 
 - name: Install conjure-up for Canonical Kubernetes
   community.general.snap:
