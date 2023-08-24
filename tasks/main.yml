@@ -135,55 +135,38 @@
     backup: yes
     mode: "u=rw,go=r"
 
-# - name: install lab
-#   become: yes
-#   become_user: "{{ username }}"
-#   shell: 'curl -s https://raw.githubusercontent.com/zaquestion/lab/master/install.sh | sudo bash'
-
 - name: clone embedded-qemu-labs
   become: yes
   become_user: '{{ username }}'
   git:
-    repo: 'https://github.com/dooraim/embedded-qemu-labs.git'
+    repo: 'git@github.com:dooraim/embedded-qemu-labs.git'
     version: master
-    dest: '~{{ username }}/'
-
-# - name: clone linux kernel 5.15.1
-#   become: yes
-#   become_user: '{{ username }}'
-#   git:
-#     repo: 'https://github.com/torvalds/linux.git'
-#     version: v5.15
-#     dest: '~{{ username }}/embedded-qemu-labs/kernel/'
+    dest: '~{{ username }}/git@github.com:dooraim/embedded-qemu-labs.git'
 
 - name: clone crosstool-ng
   become: yes
   become_user: '{{ username }}'
   git:
-    repo: 'git clone https://github.com/crosstool-ng/crosstool-ng'
-    version:
+    repo: 'https://github.com/crosstool-ng/crosstool-ng'
+    version: master
     dest: '~{{ username }}/embedded-qemu-labs/toolchain/'
 
-- name: install cheatsheet.sh
-  become: yes
-  become_user: '{{ username }}'
-  command: "curl -s https://cht.sh/:cht.sh | sudo tee /usr/local/bin/cht.sh && sudo chmod +x /usr/local/bin/cht.sh"
+- name: Download Installer cht.sh
+  get_url:
+    url: https://cht.sh/cht.sh
+    dest: /bin/cht.sh
+    mode: '0755'
+    force: 'yes'
 
-- name: install Rust
-  become: yes
-  become_user: '{{ username }}'
-  command: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
-
-- name: Install conjure-up for Canonical Kubernetes
+- name: Install nvim
   community.general.snap:
     name: nvim
     classic: yes
 
-- name: copy neovim configuration
+- name: copy nvim configuration
   become: yes
   become_user: "{{ username }}"
-  template:
-    src: nmiv
-    dest: "~{{ username }}/.conf/"
-    backup: yes
-    mode: "u=rw,go=r"
+  copy:
+    src: "nvim/"
+    dest: "~{{ username }}/.config/nvim"
+    mode: '0644'
