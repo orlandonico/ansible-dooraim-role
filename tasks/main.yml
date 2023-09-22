@@ -53,7 +53,6 @@
       - rsync
       - iperf3
       - build-essential
-      - git
       - autoconf
       - bison
       - flex
@@ -76,6 +75,7 @@
       - rlwrap
       - curl
       - xsel
+      - fzf
     autoclean: yes
 
 - name: clone oh-my-zsh for user
@@ -104,6 +104,14 @@
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     version: master
     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+
+- name: clone forgit for users
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'git clone https://github.com/wfxr/forgit.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
 
 - name: write .p10k.zsh for users
   become: yes

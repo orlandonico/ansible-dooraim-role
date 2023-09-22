@@ -129,7 +129,6 @@ alias gt="git stash"
 alias gta="git stash apply"
 alias gm="git merge"
 alias gr="git rebase"
-alias gln='logging'
 alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
 alias glga="git log --graph --oneline --all --decorate"
@@ -156,6 +155,8 @@ alias gfabv="git fetch --all && git branch -vv"
 # vedo quali commit non sono ancora stati pushati
 alias glnp="git log --branches --not --remotes"
 alias gclean="git remote prune"
+alias grst="git restore --staged"
+alias grsta="git restore --staged *"
 
 # show ignored files by git
 alias gx="ign = ls-files -o -i --exclude-standard"
@@ -167,6 +168,8 @@ alias grmc="git rm -r --cached"
 alias gupdate="git add . && git commit -m "update" && git push"
 
 # Metod
+
+alias gln='logging'
 
 logging(){
   if [ "$1" ]; then
