@@ -25,18 +25,6 @@
     path: "{{ fonts_path }}"
     state: directory
 
-- name: Hack exists
-  shell: "ls {{ fonts_path }}/Hack*Nerd*Font*Complete*"
-  register: hack_exists
-  ignore_errors: yes
-
-- name: Download Hack
-  when: hack_exists is failed
-  ansible.builtin.unarchive:
-    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Hack.zip
-    dest: "{{ fonts_path }}/"
-    remote_src: yes
-
 - name: install packages
   package:
     name:
@@ -109,7 +97,7 @@
   become: yes
   become_user: '{{ username }}'
   git:
-    repo: 'git clone https://github.com/wfxr/forgit.git'
+    repo: 'https://github.com/wfxr/forgit.git'
     version: master
     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
 
@@ -143,13 +131,6 @@
   git:
     repo: "https://github.com/tmux-plugins/tpm.git"
     dest: "~{{ username }}/.tmux/plugins/tpm"
-
-- name: Clone Notes
-  become: yes
-  become_user: "{{ username }}"
-  git:
-    repo: "git@github.com:dooraim/Note.git"
-    dest: "~{{ username }}/Notes"
 
 - name: write .tmux.conf for user
   become: yes
