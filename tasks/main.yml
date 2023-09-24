@@ -67,6 +67,7 @@
       - peco
       - fzy
       - fd-find
+      - ripgrep
     autoclean: yes
 
 - name: clone oh-my-zsh for user
