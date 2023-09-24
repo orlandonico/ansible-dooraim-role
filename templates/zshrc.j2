@@ -76,14 +76,60 @@ DISABLE_AUTO_UPDATE="true"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+# remove all alias for forgit
+export FORGIT_NO_ALIASES=true
+
+export FORGIT_FZF_DEFAULT_OPTS="
+--exact
+--cycle
+--reverse
+--height '80%'
+"
+
+# export FZF_DEFAULT_OPTS="
+# --preview 'batcat --style=numbers --color=always {}'
+# "
+export FZF_DEFAULT_COMMAND='fdfind --type f --color=never --hidden'
+export FZF_DEFAULT_OPTS='
+--no-height
+--color=bg+:#343d46,gutter:-1,pointer:#ff3c3c,info:#0dbc79,hl:#0dbc79,hl+:#23d18b
+--preview "batcat --color=always --line-range :50 {}"
+'
+
+# f - open a file
+f() {
+  batcat $( fzf )
+}
+
+# fh - repeat history
+fh() {
+  eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) |\
+  fzf +s --tac --reverse |\
+  sed -E 's/ *[0-9]*\*? *//' |\
+  sed -E 's/\\/\\\\/g')
+}
+
+# using ripgrep combined with preview
+# find-in-file - usage: fif <searchTerm>
+fif() {
+  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --files-with-matches --no-messages "$1" |\
+  fzf --preview "highlight -O ansi -l {} 2> /dev/null |\
+  rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' ||\
+  rg --ignore-case --pretty --context 10 '$1' {}"\
+  --reverse
+}
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions forgit)
+plugins=(git zsh-autosuggestions forgit enhancd)
 
 source $ZSH/oh-my-zsh.sh
+
+# source ~/forgit_custom.sh
 
 # User configuration
 
@@ -115,48 +161,48 @@ source $ZSH/oh-my-zsh.sh
 # GIT
 #-------------------------------------------------------------
 
-alias g="git status"
-alias ga="git add"
-alias gaa="git add ."
-alias gau="git add -u"
-alias gc="git commit -v"
-alias gca="git commit -am"
-alias gb="git branch -vv"
-alias gbd="git branch -d"
-alias gco="git checkout"
-alias gcob="git checkout -b"
-alias gt="git stash"
-alias gta="git stash apply"
-alias gm="git merge"
-alias gr="git rebase"
-alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
-alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
-alias glga="git log --graph --oneline --all --decorate"
-alias gs="git show"
-alias gd="git diff --color --color-words --abbrev"
-alias gdc="git diff --cached"
-alias gbl="git blame"
-alias gps="git push"
-alias gpl="git pull"
-alias go="git checkout "
-alias gk="gitk --all&"
-alias gx="gitx --all"
-alias gcl="git clone --recurse-submodules"
-alias gbr="git branch -r"
-alias gf="git fetch --all"
-alias gmnf="git merge --no-ff"
-alias gvdf='view_diff'
-alias grv="git remote -v"
-alias gra="git remote -a"
-# vedo tutti i remote del repository
-alias grs="git remote show"
-# faccio il fetch di tutti i branch e vedo lo stato dei branch in termini di commit prima e dopo
-alias gfabv="git fetch --all && git branch -vv"
-# vedo quali commit non sono ancora stati pushati
-alias glnp="git log --branches --not --remotes"
-alias gclean="git remote prune"
-alias grst="git restore --staged"
-alias grsta="git restore --staged *"
+# alias g="git status"
+# alias ga="git add"
+# alias gaa="git add ."
+# alias gau="git add -u"
+# alias gc="git commit -v"
+# alias gca="git commit -am"
+# alias gb="git branch -vv"
+# alias gbd="git branch -d"
+# alias gco="git checkout"
+# alias gcob="git checkout -b"
+# alias gt="git stash"
+# alias gta="git stash apply"
+# alias gm="git merge"
+# alias gr="git rebase"
+# alias gld="git log --pretty=format:'%Cred%h%Creset %C(cyan)%cd %C(yellow)%an%Creset %s' --date=format:'%Y-%m-%d %H:%M:%S'"
+# alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+# alias glga="git log --graph --oneline --all --decorate"
+# alias gs="git show"
+# alias gd="git diff --color --color-words --abbrev"
+# alias gdc="git diff --cached"
+# alias gbl="git blame"
+# alias gps="git push"
+# alias gpl="git pull"
+# alias go="git checkout "
+# alias gk="gitk --all&"
+# alias gx="gitx --all"
+# alias gcl="git clone --recurse-submodules"
+# alias gbr="git branch -r"
+# alias gf="git fetch --all"
+# alias gmnf="git merge --no-ff"
+# alias gvdf='view_diff'
+# alias grv="git remote -v"
+# alias gra="git remote -a"
+# # vedo tutti i remote del repository
+# alias grs="git remote show"
+# # faccio il fetch di tutti i branch e vedo lo stato dei branch in termini di commit prima e dopo
+# alias gfabv="git fetch --all && git branch -vv"
+# # vedo quali commit non sono ancora stati pushati
+# alias glnp="git log --branches --not --remotes"
+# alias gclean="git remote prune"
+# alias grst="git restore --staged"
+# alias grsta="git restore --staged *"
 
 # show ignored files by git
 alias gx="ign = ls-files -o -i --exclude-standard"
@@ -187,6 +233,20 @@ view_diff(){
     git diff HEAD^..HEAD
   fi
 }
+
+batdiff() {
+    git diff --name-only --relative --diff-filter=d | xargs batcat
+}
+
+#-------------------------------------------------------------
+# FORGIT
+#-------------------------------------------------------------
+
+alias flog="forgit_log"
+alias fcb="forgit_checkout_branch"
+alias fclean="forgit_clean"
+alias fss="forgit_stash_show"
+alias fb="forgit_blame"
 
 #-------------------------------------------------------------
 # Command Directory

@@ -64,6 +64,9 @@
       - curl
       - xsel
       - fzf
+      - peco
+      - fzy
+      - fd-find
     autoclean: yes
 
 - name: clone oh-my-zsh for user
@@ -100,6 +103,14 @@
     repo: 'https://github.com/wfxr/forgit.git'
     version: master
     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
+
+- name: clone enhancd for users
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'https://github.com/b4b4r07/enhancd.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
 
 - name: write .p10k.zsh for users
   become: yes
