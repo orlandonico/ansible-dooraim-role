@@ -105,6 +105,14 @@
     version: master
     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
 
+- name: clone syntax highlighting  for users
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    version: master
+    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+
 - name: clone enhancd for users
   become: yes
   become_user: '{{ username }}'

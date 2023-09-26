@@ -135,7 +135,7 @@ fif() {
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions forgit enhancd)
+plugins=(git zsh-autosuggestions forgit enhancd zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -334,7 +334,7 @@ cheat(){
   if [ "$1" ]; then
     curl cheat.sh/$1 | less
   else 
-    echo -e "Error\ncsh python\ncsh python/:learn\ncsh python/:list"
+    echo -e "Error\ncheat python\ncheat python/:learn\ncheat python/:list"
   fi
 }
 
