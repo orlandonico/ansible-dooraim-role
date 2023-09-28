@@ -139,7 +139,7 @@ fifbc() {
   fzf --preview "highlight -O ansi -l {} 2> /dev/null |\
   rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' ||\
   rg --ignore-case --pretty --context 10 '$1' {}"\
-  --reverse | xargs batcat
+  --reverse | xargs -n 1 batcat
 }
 
 # using ripgrep combined with preview
@@ -151,7 +151,7 @@ fifnv() {
   fzf --preview "highlight -O ansi -l {} 2> /dev/null |\
   rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' ||\
   rg --ignore-case --pretty --context 10 '$1' {}"\
-  --reverse | xargs nvim
+  --reverse | xargs -n 1 nvim
 }
 
 # Which plugins would you like to load?
