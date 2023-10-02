@@ -471,5 +471,36 @@ helpmegit() {
 
 }
 
+helmetmux() {
+
+  echo -e "${txtredbold}HELP ME TMUX!!!${txtresbold}\n"
+
+
+    echo -e "* tmux → start tmux"
+    echo -e "* tmux new -s name → start tmux with name"
+    echo -e "* tmux ls → shows the list of sessions"
+    echo -e "* tmux a # → attach the detached-session"
+    echo -e "* tmux a -t name → attach the detached-session to name"
+    echo -e "* tmux kill-session –t name or ctrl+b :kill-session → kill the session name"
+    echo -e "* tmux kill-server → kill the tmux server"
+    echo -e "* w → list windows and select one"
+    echo -e "* , → rename window"
+    echo -e "* c or N → create new window"
+    echo -e "* n → go to next window"
+    echo -e "* p → go to previous window"
+    echo -e "* f → find window"
+    echo -e "* & → kill window"
+    echo -e "* 0-9 → go to window 0-9"
+    echo -e "* x → close pane"
+    echo -e "* shift + sx mouse → select"
+    echo -e "* shift + ctrl + c → copy"
+    echo -e "* | → divide la pagina in verticale"
+    echo -e "* - → divide la pagina in orizzontale"
+    echo -e "* k → sposta la pagina verso l'alto"
+    echo -e "* j → sposta la pagina verso il basso"
+    echo -e "* l → sposta la pagina verso dx"
+    echo -e "* h → sposta la pagina verso sx"
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
