@@ -79,6 +79,12 @@
       - python3-pip
     autoclean: yes
 
+- name: Install virtualenv
+  pip:
+    name: virtualenv
+    state: latest
+    executable: pip3
+
 - name: clone oh-my-zsh for user
   tags:
     # Suppress warning: [ANSIBLE0006] git used in place of git module
