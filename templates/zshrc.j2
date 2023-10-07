@@ -237,6 +237,21 @@ alias glnp="git log --branches --not --remotes"
 alias gclean="git remote prune"
 alias grst="git restore --staged"
 alias grsta="git restore --staged *"
+alias glp="git log -p --"
+alias glpb=git log --"
+
+
+gdfb(){
+  if ![ "$1" ]; then
+    echo "Miss first branch"
+  elif ![ "$2" ]; then
+    echo "Miss second branch"
+  elif ![ "$3" ]; then
+    echo "Miss file name"
+  else
+    git diff $1..$2 -- $3
+  fi
+}
 
 # show ignored files by git
 alias gx="ign = ls-files -o -i --exclude-standard"
@@ -468,6 +483,9 @@ helpmegit() {
   echo -e "* gclean → git remote prune"
   echo -e "* grst → git restore --staged"
   echo -e "* grsta → git restore --staged *"
+  echo -e "* glp → git log -p -- <name file>"
+  echo -e "* glpb → git log -- <name file> <name branch>"
+  echo -e "* gdfb →  git diff <first branch>..<second branch> -- <file name>"
 
 }
 
