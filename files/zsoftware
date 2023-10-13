@@ -1,0 +1,40 @@
+###### SOFTWARE CONFIGURATIONS ######
+
+# PACDIFF
+export DIFFPROG=vimdiff  # for pacdiff
+
+# GIT
+export PATH="$PATH:/usr/share/git/diff-highlight"
+
+# FORGIT
+export FORGIT_COPY_CMD='xclip -selection clipboard'
+export FORGIT_STASH_FZF_OPTS='
+--bind="ctrl-d:reload(git stash drop $(cut -d: -f1 <<<{}) 1>/dev/null && git stash list)"
+--bind="ctrl-a:reload(git stash apply $(cut -d: -f1 <<<{}) 1>/dev/null && git stash list)"
+'
+
+# ZSH VI MODE
+export ZVM_VI_ESCAPE_BINDKEY=jk
+export ZVM_READKEY_ENGINE=$ZVM_READKEY_ENGINE_ZLE  # beta, disable in case of problems
+
+# TASKWARRIOR
+alias t='task-local'
+
+#CHEAT
+export CHEAT_USE_FZF=true
+
+#PYENV
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+#ANSIBLE
+export ANSIBLE_NOCOWS=1
+
+# DIRENV
+eval "$(direnv hook zsh)"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

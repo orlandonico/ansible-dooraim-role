@@ -1,0 +1,4 @@
+export EDITOR=vim
+export PATH=$PATH:~/.local/bin
+export PATH="$PATH:$FORGIT_INSTALL_DIR/bin"
+[[ -x "$(command -v google-chrome-stable)" ]] && export BROWSER=/usr/bin/google-chrome-stable

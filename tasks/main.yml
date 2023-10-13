@@ -85,56 +85,77 @@
     state: latest
     executable: pip3
 
-- name: clone oh-my-zsh for user
-  tags:
-    # Suppress warning: [ANSIBLE0006] git used in place of git module
-    # Git module doesn't allow us to set `core.autocrlf=input`.
-    - skip_ansible_lint
-  become: yes
-  become_user: "{{ username }}"
-  git:
-    repo: "https://github.com/ohmyzsh/ohmyzsh.git"
-    dest: "~{{ username }}/.oh-my-zsh"
+- name: create folder for zsh extra files
+  file:
+    path: ~/.zsh/
+    state: directory
+  tags: zsh
 
-- name: clone powerlevel10k for userss
-  become: yes
-  become_user: '{{ username }}'
-  git:
-    repo: 'https://github.com/romkatv/powerlevel10k.git'
-    version: master
-    dest: "~{{ username }}/.oh-my-zsh/custom/themes/powerlevel10k"
+- name: symlink zsh_plugins
+  file:
+    src: "{{ role_path }}/files/zsh_plugins.txt"
+    path: ~/.zsh_plugins.txt
+    state: link
+  tags: zsh
 
-- name: clone zsh-autosuggestions for users
-  become: yes
-  become_user: '{{ username }}'
-  git:
-    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-    version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions'
+- name: symlink zshrc
+  file:
+    src: "{{ role_path}}/files/zshrc"
+    path: ~/.zshrc
+    state: link
+  tags: zsh
 
-- name: clone forgit for users
-  become: yes
-  become_user: '{{ username }}'
-  git:
-    repo: 'https://github.com/wfxr/forgit.git'
-    version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
+- name: symlink zfiles
+  file:
+    src: "{{ role_path}}/files/{{ item }}"
+    path: "~/.zsh/{{ item }}"
+    state: link
+  loop:
+    - zfunctions
+    - zalias
+    - zbinds
+    - zenv
+    - zsoftware
+  tags: zsh
 
-- name: clone syntax highlighting  for users
-  become: yes
-  become_user: '{{ username }}'
-  git:
-    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
-    version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting'
+- name: symlink zsh_functions
+  file:
+    src: "{{ role_path}}/files/zsh_functions"
+    path: ~/.zsh/zsh_functions
+    state: link
+  tags: zsh
 
-- name: clone enhancd for users
+- name: symlink zsh_zstyle
+  file:
+    src: "{{ role_path}}/files/zsh_zstyle"
+    path: ~/.zsh/zsh_zstyle
+    state: link
+  ignore_errors: true
+  tags: zsh
+
+- name: symlink zsh_private
+  file:
+    src: "{{ role_path}}/files/zsh_private"
+    path: ~/.zsh/private
+    state: link
+  ignore_errors: true
+  tags: zsh
+
+- name: symlink zsh_local
+  file:
+    src: "{{ role_path}}/files/zsh_local"
+    path: ~/.zsh/zsh_local
+    state: link
+  ignore_errors: true
+  tags: zsh
+
+- name: change user shell to zsh
   become: yes
-  become_user: '{{ username }}'
-  git:
-    repo: 'https://github.com/b4b4r07/enhancd.git'
-    version: master
-    dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  ignore_errors: true
+  tags: zsh
 
 - name: write .p10k.zsh for users
   become: yes
@@ -144,21 +165,6 @@
     dest: ~{{ username }}/.p10k.zsh
     backup: yes
     mode: 'u=rw,go=r'
-
-- name: write .zshrc for user
-  become: yes
-  become_user: "{{ username }}"
-  template:
-    src: zshrc.j2
-    dest: "~{{ username }}/.zshrc"
-    backup: yes
-    mode: "u=rw,go=r"
-
-- name: set default shell for users
-  become: yes
-  user:
-    name: '{{ username }}'
-    shell: /bin/zsh
 
 - name: Clone TPM repository
   become: yes
@@ -199,10 +205,30 @@
     mode: '0755'
     force: 'yes'
 
-- name: copy nvim configuration
-  become: yes
-  become_user: "{{ username }}"
-  copy:
-    src: "nvim/"
-    dest: "~{{ username }}/.config/nvim"
-    mode: '0644'
+- name: create folder for vim extra files
+  file:
+    path: ~/.vim/
+    state: directory
+  tags: vim
+
+- name: symlink vimrc
+  file:
+    src: "{{ role_path}}/files/vimrc"
+    path: ~/.vimrc
+    state: link
+  tags: vim
+
+- name: symlink coc init
+  file:
+    src: "{{ role_path}}/files/cocnvim.vim"
+    path: ~/.vim/cocnvim.vim
+    state: link
+  tags: vim
+
+- name: symlink coc settings
+  file:
+    src: "{{ role_path}}/files/coc-settings.json"
+    path: ~/.vim/coc-settings.json
+    state: link
+  tags: vim
+

@@ -1,0 +1,73 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+[[ -f ~/.zsh/zsh_zstyle ]] && source ~/.zsh/zsh_zstyle
+
+####################### ANTIDOTE ######################
+
+# Clone antidote if necessary.
+[[ -e ${ZDOTDIR:-~}/.antidote ]] || git clone https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote
+
+# Source antidote.
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+
+# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
+antidote load
+
+# Ultra high performance installation
+# Set the name of the static .zsh plugins file antidote will generate.
+zsh_plugins=${ZDOTDIR:-~}/.zsh_plugins.zsh
+
+# Ensure you have a .zsh_plugins.txt file where you can add plugins.
+[[ -f ${zsh_plugins:r}.txt ]] || touch ${zsh_plugins:r}.txt
+
+# Lazy-load antidote.
+fpath+=(${ZDOTDIR:-~}/.antidote)
+autoload -Uz $fpath[-1]/antidote
+
+# Generate static file in a subshell when .zsh_plugins.txt is updated.
+if [[ ! $zsh_plugins -nt ${zsh_plugins:r}.txt ]]; then
+  (antidote bundle <${zsh_plugins:r}.txt >|$zsh_plugins)
+fi
+
+# Source your static plugins file.
+source $zsh_plugins
+
+########################################################################
+if ! [[ -e ${ZDOTDIR:-~}/.fzf ]]; then 
+  (git clone --depth 1 https://github.com/junegunn/fzf.git ${ZDTODIR:-~}/.fzf) 
+  cd ~/.fzf && ~/.fzf/install
+fi
+
+# Remove unwanted aliases
+
+##unalias d  # Use d to list previous directories
+##unalias j  # Unalias directory jumper
+
+[[ -f ~/.zsh/zsh_functions ]] && source ~/.zsh/zfunctions
+[[ -f ~/.zsh/zsh_private ]] && source ~/.zsh/zsh_private
+[[ -f ~/.zsh/zsh_local ]] && source ~/.zsh/zsh_local
+
+####### SHELL OPTIONS #######
+setopt nocorrect
+#Set navigation to vi mode
+#set -o vi
+
+
+####### Source conf files #######
+source ~/.zsh/zenv
+source ~/.zsh/zbinds
+source ~/.zsh/zalias
+source ~/.zsh/zsoftware
+
+####### SHELL OPTIONS #######
+setopt nocorrect
+#Set navigation to vi mode
+#set -o vi
+
+###### SCRIPTS ######
+ff_tip
