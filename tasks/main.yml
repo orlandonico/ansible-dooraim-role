@@ -205,30 +205,38 @@
     mode: '0755'
     force: 'yes'
 
-- name: create folder for vim extra files
-  file:
-    path: ~/.vim/
-    state: directory
-  tags: vim
+# - name: create folder for vim extra files
+#   file:
+#     path: ~/.vim/
+#     state: directory
+#   tags: vim
 
-- name: symlink vimrc
-  file:
-    src: "{{ role_path}}/files/vimrc"
-    path: ~/.vimrc
-    state: link
-  tags: vim
+# - name: symlink vimrc
+#   file:
+#     src: "{{ role_path}}/files/vimrc"
+#     path: ~/.vimrc
+#     state: link
+#   tags: vim
 
-- name: symlink coc init
-  file:
-    src: "{{ role_path}}/files/cocnvim.vim"
-    path: ~/.vim/cocnvim.vim
-    state: link
-  tags: vim
+# - name: symlink coc init
+#   file:
+#     src: "{{ role_path}}/files/cocnvim.vim"
+#     path: ~/.vim/cocnvim.vim
+#     state: link
+#   tags: vim
 
-- name: symlink coc settings
-  file:
-    src: "{{ role_path}}/files/coc-settings.json"
-    path: ~/.vim/coc-settings.json
-    state: link
-  tags: vim
+# - name: symlink coc settings
+#   file:
+#     src: "{{ role_path}}/files/coc-settings.json"
+#     path: ~/.vim/coc-settings.json
+#     state: link
+#   tags: vim
 
+- name: clone neovim
+  become: yes
+  become_user: '{{ username }}'
+  git:
+    repo: 'https://github.com/jdhao/nvim-config.git'
+    version: master
+    dest: '~{{ username }}/.config/nvim'
+    depth: 1
