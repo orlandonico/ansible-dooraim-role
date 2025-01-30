@@ -191,7 +191,7 @@
   become_user: "{{ username }}"
   git:
     repo: 'https://github.com/wfxr/forgit.git'
-    version: master
+    version: main
     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/forgit'
 
 - name: clone syntax highlighting  for users
@@ -206,7 +206,7 @@
   become_user: "{{ username }}"
   git:
     repo: 'https://github.com/b4b4r07/enhancd.git'
-    version: master
+    version: main
     dest: '~{{ username }}/.oh-my-zsh/custom/plugins/enhancd'
 
 - name: write .p10k.zsh for users
